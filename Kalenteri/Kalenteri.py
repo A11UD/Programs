@@ -1,6 +1,6 @@
 from datetime import datetime
-def paivamaara(tapahtuma):
-    return tapahtuma["alku"]
+from tkinter import *
+import tkinter.font
 
 tapahtumalista = [{
 "nimi" : "testi1",
@@ -96,18 +96,28 @@ def tulosta_kalenteri():
             for idx, tapahtuma in enumerate(sorted_list):
                 if tapahtuma["alku"] > aikavali1 and tapahtuma["alku"] < aikavali2:
                     print(f"Tapahtuma {tapahtuma['nimi']} alkaa {tapahtuma['alku']} ja tapahtuma kestää {tapahtuma['kesto']}")
-               
-                       #for tapahtuma in (sorted_list):
-                #print(
-                #f"Tapahtuma {tapahtuma['nimi']} alkaa {tapahtuma['alku']} ja tapahtuma kestää {tapahtuma['kesto']} ")
+
+#Piirtää kalenterin Tkinterin avulla
+def piirra_kalenteri():
+    window = Tk("Kalenteri")
+    sorted_list = sorted(tapahtumalista, key=lambda x: x['alku'])
+    for idx, tapahtuma in enumerate(sorted_list):
+        nigga = (f"Tapahtuma {tapahtuma['nimi']} alkaa {tapahtuma['alku']} ja tapahtuma kestää {tapahtuma['kesto']}")
+        label = Label(text=nigga, width = 80, fg="white", bg="black", font =('Jokerman', 24))
+        label.pack()
+    btn = Button(window, text ="Palaa", command = window.destroy)
+    btn.pack(side = 'top')
+    window.mainloop()
+
 
 def kysy_toimintoa():
-    print('''Mahdollisia toimintoja ovat
+    while True:
+        print('''Mahdollisia toimintoja ovat
     Lisaa tapahtuma (L)
     Poista tapahtuma (P)
-    Tulosta kalenteri (T))
+    Tulosta kalenteri (T)
+    Piirrä kalenteri (K)
     Lopeta toiminta (Q)''')
-    while True:
         valinta = input("Tee valintasi :").lower()
         if valinta == "l":
             print("Lisätään tapahtuma")
@@ -118,6 +128,9 @@ def kysy_toimintoa():
         elif valinta == "t":
             print("Tulostetaan kalenteri")
             tulosta_kalenteri()
+        elif valinta == "k":
+            print("Piirretään kalenteri")
+            piirra_kalenteri()
         elif valinta == "q":
             print("Lopetetaan...")
             break
