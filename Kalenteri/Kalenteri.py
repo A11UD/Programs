@@ -50,13 +50,15 @@ def lisaa_tapahtuma():
 
 #Kysytään poistettavan tapahtuman nimi ja tuhotaan se
 def poista_tapahtuma():
-    poistettava_tapahtuma = input("Syötä poistettavan tapahtuman nimi tai poistu näppäimellä Q : ")
+    poistettava_tapahtuma = input("Syötä poistettavan tapahtuman nimi tai poistu näppäimellä q : ")
     #while poistettava_tapahtuma != "Q":
        # print("Ehkä poistit tapahtumanm ehkä et, syötä Q tai toinen tapahtuma")
        # poistettava_tapahtuma =  input("Syötä poistettavan tapahtuman nimi : ")
     for i in range(len(tapahtumalista)):
         if tapahtumalista[i]['nimi'] == poistettava_tapahtuma:
             del tapahtumalista[i]
+            break
+        elif poistettava_tapahtuma == "q":
             break
         else:
            print("Ei ole tällaista tapahtumaa")
