@@ -37,7 +37,7 @@ def lisaa_tapahtuma():
             tapahtuma_date = datetime.strptime(tapahtuma_alku, '%Y-%m-%d %H:%M:%S')
             break
         except ValueError:
-            print("Printerror")
+            print("Anna alkamisaika käsketyssä muodossa!")
     tapahtuma_kesto = input("Tapahtuman kesto muodossa HH:MM:SS : ")
     tapahtuma["nimi"] = tapahtuma_nimi 
     tapahtuma["alku"] = tapahtuma_date 
@@ -50,11 +50,16 @@ def lisaa_tapahtuma():
 
 #Kysytään poistettavan tapahtuman nimi ja tuhotaan se
 def poista_tapahtuma():
-    poistettava_tapahtuma = input("Syötä poistettavan tapahtuman nimi : ")
+    poistettava_tapahtuma = input("Syötä poistettavan tapahtuman nimi tai poistu näppäimellä Q : ")
+    #while poistettava_tapahtuma != "Q":
+       # print("Ehkä poistit tapahtumanm ehkä et, syötä Q tai toinen tapahtuma")
+       # poistettava_tapahtuma =  input("Syötä poistettavan tapahtuman nimi : ")
     for i in range(len(tapahtumalista)):
         if tapahtumalista[i]['nimi'] == poistettava_tapahtuma:
             del tapahtumalista[i]
-        break
+            break
+        else:
+           print("Ei ole tällaista tapahtumaa")
     return
 
 
@@ -120,5 +125,3 @@ def kysy_toimintoa():
 
 
 kysy_toimintoa()
-
-
