@@ -62,12 +62,33 @@ def poista_tapahtuma():
 def tulosta_kalenteri():       
         #sorted(tapahtumalista, key=lambda)
         sorted_list = sorted(tapahtumalista, key=lambda x: x['alku'])
-        syote1, syote2 = input("Anna haluttu aikaväli vuosina (Alku , Loppu) : ").split(",")
-        aikavali1 = datetime.strptime(syote1.strip(), '%Y-%m-%d %H:%M:%S')
-        aikavali2 = datetime.strptime(syote2.strip(), '%Y-%m-%d %H:%M:%S')
-        for idx, tapahtuma in enumerate(sorted_list):
-            if tapahtuma["alku"] > aikavali1 and tapahtuma["alku"] < aikavali2:
-                print(f"Tapahtuma {tapahtuma['nimi']} alkaa {tapahtuma['alku']} ja tapahtuma kestää {tapahtuma['kesto']}")
+        syote1, syote2 = input('''Mikäli et halua määritellä aikaväliä kirjoita (,) 
+        Pvm asti kirjoita (YYYY-MM-DD) (, Loppu)
+        Pvm alkaen kirjoita (YYYY-MM-DD) (Alku,)                 
+        Aikaväli päivämääränä (YYYY-MM-DD) (Alku , Loppu) : ''').split(",")
+        if syote1 == "" and syote2 == "":
+         for idx, tapahtuma in enumerate(sorted_list):
+            print(f"Tapahtuma {tapahtuma['nimi']} alkaa {tapahtuma['alku']} ja tapahtuma kestää {tapahtuma['kesto']}")
+        
+        elif syote2 == "":
+         aikavali1 = datetime.strptime(syote1.strip(), '%Y-%m-%d')
+         for idx, tapahtuma in enumerate(sorted_list):
+           if tapahtuma["alku"] > aikavali1:
+            print(f"Tapahtuma {tapahtuma['nimi']} alkaa {tapahtuma['alku']} ja tapahtuma kestää {tapahtuma['kesto']}")
+
+
+        elif syote1 == "":
+         aikavali2 = datetime.strptime(syote2.strip(), '%Y-%m-%d')
+         for idx, tapahtuma in enumerate(sorted_list):
+           if tapahtuma["alku"] < aikavali2:
+            print(f"Tapahtuma {tapahtuma['nimi']} alkaa {tapahtuma['alku']} ja tapahtuma kestää {tapahtuma['kesto']}")
+
+        else:
+            aikavali1 = datetime.strptime(syote1.strip(), '%Y-%m-%d')
+            aikavali2 = datetime.strptime(syote2.strip(), '%Y-%m-%d')
+            for idx, tapahtuma in enumerate(sorted_list):
+                if tapahtuma["alku"] > aikavali1 and tapahtuma["alku"] < aikavali2:
+                    print(f"Tapahtuma {tapahtuma['nimi']} alkaa {tapahtuma['alku']} ja tapahtuma kestää {tapahtuma['kesto']}")
                
                        #for tapahtuma in (sorted_list):
                 #print(
