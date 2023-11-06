@@ -4,22 +4,7 @@ import tkinter.font
 import json
 
 
-tapahtumalista = [{
-"nimi" : "Fucu",
-"alku" : datetime.strptime("2002-12-12 12:12:12", '%Y-%m-%d %H:%M:%S'),
-"kesto" : "12:12:12"
-},{
-"nimi" : "Sitsi",
-"alku" : datetime.strptime("2003-12-12 10:12:12", '%Y-%m-%d %H:%M:%S'),
-"kesto" : "12:12:12"},
-{
-"nimi" : "Rippi",
-"alku" : datetime.strptime("2008-12-12 12:12:12", '%Y-%m-%d %H:%M:%S'),
-"kesto" : "12:12:12"
-},{
-"nimi" : "kastraatio",
-"alku" : datetime.strptime("2004-12-12 10:12:12", '%Y-%m-%d %H:%M:%S'),
-"kesto" : "12:12:12"}]
+tapahtumalista = []
 
 
 tapahtuma = {
@@ -130,6 +115,7 @@ def tuo_tiedot():
         tapahtumalista[i]["alku"] = datetime.strptime(tapahtumalista[i]["alku"],'%Y-%m-%d %H:%M:%S') 
     return tapahtumalista
 print(tapahtumalista)
+
 
 def kysy_toimintoa():
     while True:
