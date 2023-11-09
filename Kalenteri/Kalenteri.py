@@ -4,7 +4,13 @@ import tkinter.font
 import json
 
 
-tapahtumalista = []
+tapahtumalista = [
+#{"nimi" : "testi",
+ #   "alku" : datetime.strptime("2003-12-12 12:12:12", '%Y-%m-%d %H:%M:%S'),
+ #   "kesto" : "f"
+  #  }
+   
+]
 
 
 tapahtuma = {
@@ -52,47 +58,12 @@ def poista_tapahtuma():
     return
 
 
-#tulostaa kalenterin
-def tulosta_kalenteri():       
-
-
-        sorted_list = sorted(tapahtumalista, key=lambda x: x['alku'])
-        syote1, syote2 = input('''Mikäli et halua määritellä aikaväliä kirjoita (,) 
-        Pvm asti kirjoita (YYYY-MM-DD) (, Loppu)
-        Pvm alkaen kirjoita (YYYY-MM-DD) (Alku,)                 
-        Aikaväli päivämääränä (YYYY-MM-DD) (Alku , Loppu) : ''').split(",")
-        if syote1 == "" and syote2 == "":
-         for idx, tapahtuma in enumerate(sorted_list):
-            print(f"Tapahtuma {tapahtuma['nimi']} alkaa {tapahtuma['alku']} ja tapahtuma kestää {tapahtuma['kesto']}")
-        
-
-        elif syote2 == "":
-         aikavali1 = datetime.strptime(syote1.strip(), '%Y-%m-%d')
-         for idx, tapahtuma in enumerate(sorted_list):
-           if tapahtuma["alku"] > aikavali1:
-            print(f"Tapahtuma {tapahtuma['nimi']} alkaa {tapahtuma['alku']} ja tapahtuma kestää {tapahtuma['kesto']}")
-
-
-        elif syote1 == "":
-         aikavali2 = datetime.strptime(syote2.strip(), '%Y-%m-%d')
-         for idx, tapahtuma in enumerate(sorted_list):
-           if tapahtuma["alku"] < aikavali2:
-            print(f"Tapahtuma {tapahtuma['nimi']} alkaa {tapahtuma['alku']} ja tapahtuma kestää {tapahtuma['kesto']}")
-
-
-        else:
-            aikavali1 = datetime.strptime(syote1.strip(), '%Y-%m-%d')
-            aikavali2 = datetime.strptime(syote2.strip(), '%Y-%m-%d')
-            for idx, tapahtuma in enumerate(sorted_list):
-                if tapahtuma["alku"] > aikavali1 and tapahtuma["alku"] < aikavali2:
-                    print(f"Tapahtuma {tapahtuma['nimi']} alkaa {tapahtuma['alku']} ja tapahtuma kestää {tapahtuma['kesto']}")
-
 
 #Piirtää kalenterin Tkinterin avulla
 def piirra_kalenteri():
     window = Tk("Kalenteri")
     sorted_list = sorted(tapahtumalista, key=lambda x: x['alku'])
-    for idx, tapahtuma in enumerate(sorted_list):
+    for tapahtuma in sorted_list:
         teksti = (f"Tapahtuma {tapahtuma['nimi']} alkaa {tapahtuma['alku']} ja tapahtuma kestää {tapahtuma['kesto']}")
         label = Label(text=teksti, width = 80, fg="white", bg="black", font =('Jokerman', 24))
         label.pack()
@@ -106,15 +77,52 @@ def tallenna_tiedot():
     tapahtumalista[i]["alku"] = datetime.strftime(tapahtumalista[i]["alku"],'%Y-%m-%d %H:%M:%S')
    with open("tapahtumat.json", "w", encoding="utf-8") as write_file: 
     json.dump(tapahtumalista, write_file, indent=4)   
-
+    for i in range(len(tapahtumalista)):
+        tapahtumalista[i]["alku"] = datetime.strptime(tapahtumalista[i]["alku"],'%Y-%m-%d %H:%M:%S') 
 
 def tuo_tiedot():
     with open("tapahtumat.json", "r", encoding="utf-8") as read_file:
-        tapahtumalista = json.load(read_file)
-    for i in range(len(tapahtumalista)):
-        tapahtumalista[i]["alku"] = datetime.strptime(tapahtumalista[i]["alku"],'%Y-%m-%d %H:%M:%S') 
-    return tapahtumalista
-print(tapahtumalista)
+        kopio2 = json.load(read_file)
+    for i in range(len(kopio2)):
+        kopio2[i]["alku"] = datetime.strptime(kopio2[i]["alku"],'%Y-%m-%d %H:%M:%S') 
+    tapahtumalista.append(kopio2)
+    print(tapahtumalista)
+
+
+#tulostaa kalenterin
+def tulosta_kalenteri():       
+
+    sorted_list = sorted(tapahtumalista, key=lambda x: x['alku'])
+    syote1, syote2 = input('''Mikäli et halua määritellä aikaväliä kirjoita (,) 
+    Pvm asti kirjoita (YYYY-MM-DD) (, Loppu)
+    Pvm alkaen kirjoita (YYYY-MM-DD) (Alku,)                 
+    Aikaväli päivämääränä (YYYY-MM-DD) (Alku , Loppu) : ''').split(",")
+   # print(sorted_list)
+    if syote1 == "" and syote2 == "":
+        for idx, tapahtuma in enumerate(sorted_list):
+            print(f"Tapahtuma {tapahtuma['nimi']} alkaa {tapahtuma['alku']} ja tapahtuma kestää {tapahtuma['kesto']}")
+            
+
+    elif syote2 == "":
+        aikavali1 = datetime.strptime(syote1.strip(), '%Y-%m-%d')
+        for idx, tapahtuma in enumerate(sorted_list):
+            if tapahtuma["alku"] > aikavali1:
+                print(f"Tapahtuma {tapahtuma['nimi']} alkaa {tapahtuma['alku']} ja tapahtuma kestää {tapahtuma['kesto']}")
+
+
+    elif syote1 == "":
+        aikavali2 = datetime.strptime(syote2.strip(), '%Y-%m-%d')
+        for idx, tapahtuma in enumerate(sorted_list):
+            if tapahtuma["alku"] < aikavali2:
+                print(f"Tapahtuma {tapahtuma['nimi']} alkaa {tapahtuma['alku']} ja tapahtuma kestää {tapahtuma['kesto']}")
+
+
+    else:
+        aikavali1 = datetime.strptime(syote1.strip(), '%Y-%m-%d')
+        aikavali2 = datetime.strptime(syote2.strip(), '%Y-%m-%d')
+        for idx, tapahtuma in enumerate(sorted_list):
+            if tapahtuma["alku"] > aikavali1 and tapahtuma["alku"] < aikavali2:
+                print(f"Tapahtuma {tapahtuma['nimi']} alkaa {tapahtuma['alku']} ja tapahtuma kestää {tapahtuma['kesto']}")
 
 
 def kysy_toimintoa():
